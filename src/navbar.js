@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Icon, Dropdown } from 'semantic-ui-react'
 import Searchbar from './search';
 
-export default class MenuExampleStackable extends Component {
+export default class Navheader extends Component {
   constructor(props) {
     super(props);
 
@@ -27,7 +27,6 @@ export default class MenuExampleStackable extends Component {
         </Menu.Item>
           <Menu.Item
             name='browse'
-            active={activeItem === 'browse'}
             onClick={this.handleItemClick}
           >
           <Icon name='grid layout' />
