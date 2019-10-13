@@ -7,6 +7,7 @@ import faker from 'faker'
 
 const getResults = () =>
   _.times(5, () => ({
+    id: faker.random.uuid(),
     title: faker.company.companyName(),
     description: faker.company.catchPhrase(),
     price: faker.finance.amount(0, 100, 2, '$'),
@@ -14,11 +15,14 @@ const getResults = () =>
 
 const category = _.range(0, 3).reduce((memo) => {
   const name = faker.hacker.noun()
+  const id = faker.random.number()
 
   // eslint-disable-next-line no-param-reassign
   memo[name] = {
+    id,
     name,
     results: getResults(),
+
   }
 
   return memo
