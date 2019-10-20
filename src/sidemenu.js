@@ -7,7 +7,7 @@ class SideMenu extends Component {
   // Function Definitions
   handleItemClick = (e, { name, bookid, categoryid }) => {
 
-    var allitems = this.props.origCat
+    var allitems = this.props.origCatList
     // Narrow down by category
     var categoryBooksCollection = allitems.filter( category => {
         return category.id === categoryid;
@@ -27,16 +27,18 @@ class SideMenu extends Component {
 
   filterCat = (e, {name, categoryid}) => {
 
-    var allitems = this.props.origCat
+    var origCatList = this.props.origCatList
 
     if (categoryid !== "-1") {
-      var filtered = allitems.filter(function(category) {
+      var filtered = origCatList.filter(function(category) {
 	        return category.id === categoryid;
       });
-      allitems = filtered
+      var filteredCat = {};
+      filteredCat[filtered[0].name] = filtered[0];
+      origCatList = filteredCat
     }
 
-    this.props.dispatch({ type: 'FILTER', changeableCat: allitems})
+    this.props.dispatch({ type: 'FILTER', changeableCatList: Object.values(origCatList), changeableCatSet: origCatList, selectedCat: categoryid})
   }
 
   // Renderer
@@ -56,7 +58,7 @@ class SideMenu extends Component {
                   All Categories
                 </Dropdown.Item>
 
-                  {this.props.origCat.map((item) => (
+                  {this.props.origCatList.map((item) => (
                   <Dropdown.Item
                     key={item.id}
                     categoryid={item.id}
@@ -71,7 +73,7 @@ class SideMenu extends Component {
               </Dropdown>
 
               <Segment.Group style={{overflow: 'auto', maxHeight: 1000 }}>
-                {this.props.changeableCat.map((item) => {
+                {this.props.changeableCatList.map((item) => {
                 return(
                   <div key={item.id}>
                     {item.results.map((res) => (
@@ -101,8 +103,8 @@ class SideMenu extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  origCat : Object.values(state.origCat),
-  changeableCat : Object.values(state.changeableCat),
+  origCatList : state.origCatList,
+  changeableCatList : state.changeableCatList,
   activeItem: state.activeItem
 })
 

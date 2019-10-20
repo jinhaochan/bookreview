@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { Search, Grid } from 'semantic-ui-react'
+import { Search, Grid, Label } from 'semantic-ui-react'
 import { connect } from "react-redux";
 
 const initialState = { isLoading: false, results: [] }
@@ -10,6 +10,7 @@ class SearchBar extends Component {
   state = initialState
 
   handleResultSelect = (e, { result }) => {
+    this.setState({ value: result.title })
 
     this.props.dispatch({ type: 'SELECT_SEARCH', activeItem: result.title, selectedItem: result, value: result.title})
 
@@ -44,7 +45,7 @@ class SearchBar extends Component {
 
     return (
       <Grid>
-        <Grid.Column width={8}>
+        <Grid.Column width={16}>
           <Search
             category
             loading={this.props.isLoading}
@@ -53,8 +54,11 @@ class SearchBar extends Component {
               leading: true,
             })}
             results={this.props.results}
-            value={this.props.value}
+            value={this.state.value}
           />
+          <br/>
+          <Label horizontal>{this.props.selectedCat}</Label>
+
         </Grid.Column>
 
       </Grid>
@@ -66,7 +70,8 @@ const mapStateToProps = (state) => ({
   value : state.searchValue,
   isLoading: state.searchisLoading,
   results: state.searchResults,
-  cat: state.origCat
+  cat: state.changeableCatSet,
+  selectedCat: state.selectedCat
 })
 
 export default connect(mapStateToProps)(SearchBar);

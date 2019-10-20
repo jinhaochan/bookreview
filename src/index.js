@@ -33,13 +33,16 @@ const category = _.range(0, 3).reduce((memo) => {
 }, {})
 
 const initialState = {
-  changeableCat: category,
-  origCat: category,
+  changeableCatSet: category,
+  origCatSet: category,
+  changeableCatList: Object.values(category),
+  origCatList: Object.values(category),
   selectedItem: [{review:'test', title:'test', cover:'test'}],
   activeItem: [],
   searchValue: '',
   searchisLoading: false,
   searchResults: [],
+  selectedCat: 'All Categories'
 };
 
 const reducer = (state = initialState, action) => {
@@ -57,12 +60,27 @@ const reducer = (state = initialState, action) => {
           })
     case 'ENTER_SEARCH':
         return Object.assign({}, state, {
+            searchValue: action.value,
             searchisLoading: action.isLoading,
             searchResults: action.results,
           })
     case 'FILTER':
-            return Object.assign({}, state, {
-              changeableCat: action.changeableCat
+        var catName
+        var changeableCatSet
+        if (action.selectedCat !== "-1") {
+            var filteredResults = initialState.origCatList.filter( category => {
+                return category.id === action.selectedCat;
+            });
+            catName = filteredResults[0].name;
+            changeableCatSet = action.changeableCatSet
+        } else {
+          changeableCatSet = initialState.origCatSet;
+          catName = 'All Categories'}
+
+        return Object.assign({}, state, {
+              changeableCatList: action.changeableCatList,
+              changeableCatSet: changeableCatSet,
+              selectedCat: catName
             })
     default:
         return state;
