@@ -1,26 +1,13 @@
 import React, { Component } from 'react'
-import { Header, Menu, Dropdown, Segment, Grid } from 'semantic-ui-react'
+import { Header, Menu, Dropdown, Segment } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 
-import Content from './content';
-
-export default class SideMenu extends Component {
-  // Constructor
-  constructor(props) {
-  super(props);
-
-  this.state = {
-    cat: Object.values(props.cat),
-    origcat: Object.values(props.cat),
-    isShow: true,
-    selectedItem: [],
-  };
-  console.log(this.state.cat)
-  }
+class SideMenu extends Component {
 
   // Function Definitions
   handleItemClick = (e, { name, bookid, categoryid }) => {
 
-    var allitems = this.state.origcat
+    var allitems = this.props.origCat
     // Narrow down by category
     var categoryBooksCollection = allitems.filter( category => {
         return category.id === categoryid;
@@ -32,12 +19,15 @@ export default class SideMenu extends Component {
         return book.id === bookid;
     });
 
-    console.log(book)
-    this.setState({ activeItem: name, selectedItem: book })
+    console.log(name)
+
+    this.props.dispatch({ type: 'SELECT_BOOK', activeItem: name, selectedItem: book[0]})
+
     }
 
   filterCat = (e, {name, categoryid}) => {
-    var allitems = this.state.origcat
+
+    var allitems = this.props.origCat
 
     if (categoryid !== "-1") {
       var filtered = allitems.filter(function(category) {
@@ -45,17 +35,15 @@ export default class SideMenu extends Component {
       });
       allitems = filtered
     }
-    this.setState({cat : allitems })
+
+    this.props.dispatch({ type: 'FILTER', changeableCat: allitems})
   }
 
   // Renderer
   render() {
-    const { activeItem } = this.state
 
     return (
-      <Grid columns={2} padded='vertically'>
 
-              <Grid.Column>
               <Menu vertical>
               <Dropdown item text='Categories'>
                 <Dropdown.Menu>
@@ -68,7 +56,7 @@ export default class SideMenu extends Component {
                   All Categories
                 </Dropdown.Item>
 
-                  {this.state.origcat.map((item) => (
+                  {this.props.origCat.map((item) => (
                   <Dropdown.Item
                     key={item.id}
                     categoryid={item.id}
@@ -83,7 +71,7 @@ export default class SideMenu extends Component {
               </Dropdown>
 
               <Segment.Group style={{overflow: 'auto', maxHeight: 1000 }}>
-                {this.state.cat.map((item) => {
+                {this.props.changeableCat.map((item) => {
                 return(
                   <div key={item.id}>
                     {item.results.map((res) => (
@@ -92,7 +80,7 @@ export default class SideMenu extends Component {
                         bookid={res.id}
                         categoryid={item.id}
                         name={res.title}
-                        active={activeItem === res.title}
+                        active={this.props.activeItem === res.title}
                         onClick={this.handleItemClick}
                        >
                          <div className="ui top left attached label">{item.name}</div>
@@ -106,14 +94,16 @@ export default class SideMenu extends Component {
               </Segment.Group>
 
               </Menu>
-              </Grid.Column>
-              <Grid.Column>
-                <Content item={this.state.selectedItem}/>
-              </Grid.Column>
-          </Grid>
-
 
     )
 
   }
 }
+
+const mapStateToProps = (state) => ({
+  origCat : Object.values(state.origCat),
+  changeableCat : Object.values(state.changeableCat),
+  activeItem: state.activeItem
+})
+
+export default connect(mapStateToProps)(SideMenu);

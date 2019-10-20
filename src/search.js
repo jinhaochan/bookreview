@@ -1,23 +1,19 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { Search, Grid } from 'semantic-ui-react'
+import { connect } from "react-redux";
 
-const initialState = { isLoading: false, results: [], value: '' }
+const initialState = { isLoading: false, results: [] }
 
-export default class SearchBar extends Component {
-  constructor(props) {
-  super(props);
-
-  this.cat = props.cat;
-
-  this.state = {
-    isShow: true,
-  };
-}
+class SearchBar extends Component {
 
   state = initialState
 
-  handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+  handleResultSelect = (e, { result }) => {
+
+    this.props.dispatch({ type: 'SELECT_SEARCH', activeItem: result.title, selectedItem: result, value: result.title})
+
+    }
 
   handleSearchChange = (e, { value }) => {
     this.setState({ isLoading: true, value })
@@ -29,7 +25,7 @@ export default class SearchBar extends Component {
       const isMatch = (result) => re.test(result.title)
 
       const filteredResults = _.reduce(
-        this.cat,
+        this.props.cat,
         (memo, data, name) => {
           const results = _.filter(data.results, isMatch)
           if (results.length) memo[name] = { name, results } // eslint-disable-line no-param-reassign
@@ -39,29 +35,25 @@ export default class SearchBar extends Component {
         {},
       )
 
-      this.setState({
-        isLoading: false,
-        results: filteredResults,
-      })
+  this.props.dispatch({ type: 'ENTER_SEARCH', isLoading: false, results: filteredResults})
+
     }, 300)
   }
 
   render() {
-    const { isLoading, value, results } = this.state
 
     return (
       <Grid>
         <Grid.Column width={8}>
           <Search
             category
-            loading={isLoading}
+            loading={this.props.isLoading}
             onResultSelect={this.handleResultSelect}
             onSearchChange={_.debounce(this.handleSearchChange, 500, {
               leading: true,
             })}
-            results={results}
-            value={value}
-            {...this.props}
+            results={this.props.results}
+            value={this.props.value}
           />
         </Grid.Column>
 
@@ -69,3 +61,12 @@ export default class SearchBar extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  value : state.searchValue,
+  isLoading: state.searchisLoading,
+  results: state.searchResults,
+  cat: state.origCat
+})
+
+export default connect(mapStateToProps)(SearchBar);

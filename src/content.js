@@ -7,32 +7,9 @@ import {
   Segment,
   Sticky,
 } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 
-
-export default class Content extends Component {
-
-  constructor(props) {
-  super(props);
-
-  this.state = {
-    item: [{
-      title: "test",
-      cover: 0,
-      description: "test",
-      review: "test",
-    }
-    ]
-  ,
-  };
-
-  }
-
-  componentDidUpdate(prevProps) {
-  if (this.props.item !== prevProps.item) {
-  this.setState({item : this.props.item }, () => {console.log(this.state.item)});
-
-  }
-  }
+class Content extends Component {
 
   render() {
     return (
@@ -41,12 +18,12 @@ export default class Content extends Component {
         <Grid.Column>
 
             <Segment>
-              {this.state.item[0].review}
+              {this.props.item.review}
 
               <Rail position='left'>
                 <Sticky>
-                  <Header as='h3'>{this.state.item[0].title}</Header>
-                  <Image src={this.state.item[0].cover} />
+                  <Header as='h3'>{this.props.item.title}</Header>
+                  <Image src={this.props.item.cover} />
                 </Sticky>
               </Rail>
             </Segment>
@@ -56,3 +33,9 @@ export default class Content extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  item : state.selectedItem,
+})
+
+export default connect(mapStateToProps)(Content);

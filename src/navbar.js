@@ -2,23 +2,32 @@ import React, { Component } from 'react'
 import { Menu, Icon, Dropdown } from 'semantic-ui-react'
 import Searchbar from './search';
 
-export default class Navheader extends Component {
-  constructor(props) {
-    super(props);
+import { connect } from "react-redux";
 
-    this.cat = props.cat;
-
-    this.state = {
-      isShow: true,
-    };
-  }
+class Navheader extends Component {
 
   state = {}
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  // Function Definitions
+  handleItemClick = (e, { name, bookid, categoryid }) => {
+
+    var allitems = this.props.origCat
+    // Narrow down by category
+    var categoryBooksCollection = allitems.filter( category => {
+        return category.id === categoryid;
+    });
+
+    var categoryBooks = categoryBooksCollection[0].results;
+    // Finding the book in the catergory
+    var book = categoryBooks.filter( book => {
+        return book.id === bookid;
+    });
+
+    this.props.dispatch({ type: 'SELECT_BOOK', activeItem: name, selectedItem: book})
+
+    }
 
   render() {
-    const { activeItem } = this.state
 
     return (
       <Menu stackable>
@@ -34,13 +43,13 @@ export default class Navheader extends Component {
           </Menu.Item>
 
           <Menu.Item>
-            <Searchbar cat={this.cat}/>
+            <Searchbar cat={this.props.cat}/>
           </Menu.Item>
 
           <Menu.Menu position='right'>
             <Menu.Item
               name='login'
-              active={activeItem === 'login'}
+              active={this.props.activeItem === 'login'}
               onClick={this.handleItemClick}
             >
           <Dropdown item text='Login'>
@@ -56,3 +65,9 @@ export default class Navheader extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  cat : state.origCat,
+})
+
+export default connect(mapStateToProps)(Navheader);
