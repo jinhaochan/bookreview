@@ -19,15 +19,11 @@ class SideMenu extends Component {
         return book.id === bookid;
     });
 
-    console.log(name)
-
     this.props.dispatch({ type: 'SELECT_BOOK', activeItem: name, selectedItem: book[0]})
 
     }
 
   filterCat = (e, {name, categoryid}) => {
-
-    var origCatList = this.props.origCatList
 
     this.props.dispatch({ type: 'FILTER', selectedCat: categoryid})
   }
