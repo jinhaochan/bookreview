@@ -67,18 +67,26 @@ const reducer = (state = initialState, action) => {
     case 'FILTER':
         var catName
         var changeableCatSet
+        var changeableCatList
+        var filteredCat = {}
+
         if (action.selectedCat !== "-1") {
             var filteredResults = initialState.origCatList.filter( category => {
                 return category.id === action.selectedCat;
             });
             catName = filteredResults[0].name;
-            changeableCatSet = action.changeableCatSet
+
+	    filteredCat[filteredResults[0].name] = filteredResults[0]
+
+            changeableCatSet = filteredCat
+            changeableCatList = Object.values(changeableCatSet)
         } else {
           changeableCatSet = initialState.origCatSet;
+          changeableCatList = initialState.origCatList;
           catName = 'All Categories'}
 
         return Object.assign({}, state, {
-              changeableCatList: action.changeableCatList,
+              changeableCatList: changeableCatList,
               changeableCatSet: changeableCatSet,
               selectedCat: catName
             })

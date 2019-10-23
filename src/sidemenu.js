@@ -29,16 +29,7 @@ class SideMenu extends Component {
 
     var origCatList = this.props.origCatList
 
-    if (categoryid !== "-1") {
-      var filtered = origCatList.filter(function(category) {
-	        return category.id === categoryid;
-      });
-      var filteredCat = {};
-      filteredCat[filtered[0].name] = filtered[0];
-      origCatList = filteredCat
-    }
-
-    this.props.dispatch({ type: 'FILTER', changeableCatList: Object.values(origCatList), changeableCatSet: origCatList, selectedCat: categoryid})
+    this.props.dispatch({ type: 'FILTER', selectedCat: categoryid})
   }
 
   // Renderer
