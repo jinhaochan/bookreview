@@ -11,7 +11,7 @@ function App() {
     <div className="App">
 
     <Navheader />
-    <Grid columns={2} padded='vertically'>
+    <Grid columns={3} padded='vertically'>
     <Grid.Column>
     <SideMenu />
     </Grid.Column>

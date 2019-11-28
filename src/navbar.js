@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Icon, Dropdown } from 'semantic-ui-react'
+import { Label, Form, Menu, Icon, Dropdown } from 'semantic-ui-react'
 import Searchbar from './search';
 
 import { connect } from "react-redux";
@@ -43,30 +43,25 @@ class Navheader extends Component {
           </Menu.Item>
 
           <Menu.Item>
+            <Label pointing='right'>{this.props.selectedCat}</Label>
             <Searchbar cat={this.props.cat}/>
           </Menu.Item>
 
           <Menu.Menu position='right'>
-            <Menu.Item
-              name='login'
-              active={this.props.activeItem === 'login'}
-              onClick={this.handleItemClick}
-            >
           <Dropdown item text='Login'>
             <Dropdown.Menu>
               <Dropdown.Item>Facebook</Dropdown.Item>
-              <Dropdown.Item>Google</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        </Menu.Item>
-
         </Menu.Menu>
+
       </Menu>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
+  selectedCat: state.selectedCat,
   cat : state.origCat,
 })
 
