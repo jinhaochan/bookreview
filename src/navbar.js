@@ -1,8 +1,18 @@
 import React, { Component } from 'react'
 import { Label, Form, Menu, Icon, Dropdown } from 'semantic-ui-react'
+import FacebookLogin from 'react-facebook-login';
 import Searchbar from './search';
 
 import { connect } from "react-redux";
+
+var name;
+
+const responseFacebook = (response) => {
+  console.log(response);
+  localStorage.setItem("name", response.name);
+  console.log(response.name);
+  name = response.name
+}
 
 class Navheader extends Component {
 
@@ -47,14 +57,25 @@ class Navheader extends Component {
             <Searchbar cat={this.props.cat}/>
           </Menu.Item>
 
+	    {name ?
+	    name :
           <Menu.Menu position='right'>
           <Dropdown item text='Login'>
             <Dropdown.Menu>
-              <Dropdown.Item>Facebook</Dropdown.Item>
+              <Dropdown.Item>
+
+	    <FacebookLogin
+    appId="992344814485018"
+    autoLoad={false}
+    fields="name,picture"
+	    icon="fa-facebook"
+    callback={responseFacebook} />
+
+	    </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Menu>
-
+	    }
       </Menu>
     )
   }
