@@ -1,22 +1,35 @@
 import React, { Component } from 'react'
-import { Label, Form, Menu, Icon, Dropdown } from 'semantic-ui-react'
-import FacebookLogin from 'react-facebook-login';
+import { Button, Label, Form, Menu, Icon, Dropdown } from 'semantic-ui-react'
+import FacebookLoginWithButton from 'react-facebook-login';
 import Searchbar from './search';
 
 import { connect } from "react-redux";
 
-var name;
+const LoginButton = ({facebookResponse}) => (
+	    <FacebookLoginWithButton
+              appId="992344814485018"
+              autoLoad={true}
+	      fields="name,email,picture"
+	      callback={facebookResponse}
+	      size="small"
+              icon="fa-facebook"
+	      textButton = "Login"
+	      />
+	      )
 
-const responseFacebook = (response) => {
-  console.log(response);
-  localStorage.setItem("name", response.name);
-  console.log(response.name);
-  name = response.name
-}
+const UserScreen = ({user}) => (
+	  <>
+	    <p>Welcome {user.name}!</p>
+	    <img src={user.picture.data.url} height={user.picture.height} width={user.picture.width} alt="avatar"/>
+	  </>
+)
 
 class Navheader extends Component {
 
-  state = {}
+  state = {user:false}
+
+  facebookResponse = (response) => { console.log( response ); this.setState( {...this.state, user: response } ) }
+
 
   // Function Definitions
   handleItemClick = (e, { name, bookid, categoryid }) => {
@@ -40,7 +53,7 @@ class Navheader extends Component {
   render() {
 
     return (
-      <Menu stackable>
+      <Menu pointing  secondary >
         <Menu.Item>
           BOOKIE
         </Menu.Item>
@@ -57,25 +70,12 @@ class Navheader extends Component {
             <Searchbar cat={this.props.cat}/>
           </Menu.Item>
 
-	    {name ?
-	    name :
-          <Menu.Menu position='right'>
-          <Dropdown item text='Login'>
-            <Dropdown.Menu>
-              <Dropdown.Item>
+          <Menu.Item position='right'>
+	    { this.state.user ? <UserScreen user={this.state.user}/> :
+		              <LoginButton facebookResponse={this.facebookResponse}/>
+		            }
+          </Menu.Item>
 
-	    <FacebookLogin
-    appId="992344814485018"
-    autoLoad={false}
-    fields="name,picture"
-	    icon="fa-facebook"
-    callback={responseFacebook} />
-
-	    </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Menu.Menu>
-	    }
       </Menu>
     )
   }
