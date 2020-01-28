@@ -3,9 +3,7 @@ import {
   Grid,
   Header,
   Image,
-  Rail,
   Segment,
-  Sticky,
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 

@@ -1,28 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Label, Form, Menu, Icon, Dropdown } from 'semantic-ui-react'
-import FacebookLoginWithButton from 'react-facebook-login';
+import { Label, Form, Menu, Icon, Dropdown } from 'semantic-ui-react'
 import Searchbar from './search';
-
+import UserScreen from './userscreen';
+import LoginButton from './login';
 import { connect } from "react-redux";
 
-const LoginButton = ({facebookResponse}) => (
-	    <FacebookLoginWithButton
-              appId="992344814485018"
-              autoLoad={true}
-	      fields="name,email,picture"
-	      callback={facebookResponse}
-	      size="small"
-              icon="fa-facebook"
-	      textButton = "Login"
-	      />
-	      )
-
-const UserScreen = ({user}) => (
-	  <>
-	    <p>Welcome {user.name}!</p>
-	    <img src={user.picture.data.url} height={user.picture.height} width={user.picture.width} alt="avatar"/>
-	  </>
-)
 
 class Navheader extends Component {
 
@@ -57,13 +39,6 @@ class Navheader extends Component {
         <Menu.Item>
           BOOKIE
         </Menu.Item>
-          <Menu.Item
-            name='browse'
-            onClick={this.handleItemClick}
-          >
-          <Icon name='grid layout' />
-            Browse All
-          </Menu.Item>
 
           <Menu.Item>
             <Label pointing='right'>{this.props.selectedCat}</Label>
