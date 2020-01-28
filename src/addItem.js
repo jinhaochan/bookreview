@@ -1,6 +1,6 @@
 import React from 'react'
 import ImageUploader from 'react-images-upload';
-import { Form, Button, Select, Header, Icon, Image, Modal } from 'semantic-ui-react'
+import { Form, Button, TextArea, Select, Header, Icon, Image, Modal } from 'semantic-ui-react'
 
 const options = [
 	  { key: 'b', text: 'Book', value: 'Book' },
@@ -48,15 +48,24 @@ class AddItem extends React.Component{
 		     }
 	      <Modal.Description>
 	         <Form>
-	              <Form.Input fluid label='Name' placeholder='Title of interest' />
+	              <Form.Input fluid label='Title' placeholder='Title of Material' />
 
 	          <Form.Field
 	            control={Select}
 	            label='Medium'
 	            options={options}
-	            onChange={this.onDrop}
 	            placeholder='Source of Information'
 	          />
+
+	         <Form.Input fluid label='Description' placeholder='Brief Description About The Material' />
+
+                 <Form.Field
+		           id='form-textarea-control-opinion'
+		           control={TextArea}
+		           label='Enter Points Separated By One Line'
+		           placeholder='Point 1&#13;&#13;Point 2&#13;&#13;Point 3&#13;&#13;...'
+		         />
+
 	            <Form.Checkbox label='I agree to the Terms and Conditions' />
 	          </Form>
 

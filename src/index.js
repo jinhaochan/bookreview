@@ -5,7 +5,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux'
 import { Provider } from "react-redux";
-
 import _ from 'lodash'
 import faker from 'faker'
 
@@ -17,7 +16,6 @@ const getResults = () =>
     description: faker.company.catchPhrase(),
     cover: faker.image.cats(),
     review: faker.lorem.paragraphs(),
-    price: faker.finance.amount(0, 100, 2, '$'),
   }))
 
 const category = _.range(0, 3).reduce((memo) => {

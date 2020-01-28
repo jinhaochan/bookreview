@@ -35,9 +35,9 @@ class Navheader extends Component {
   render() {
 
     return (
-      <Menu pointing  secondary >
+      <Menu stacked >
         <Menu.Item>
-          BOOKIE
+          TLDR
         </Menu.Item>
 
           <Menu.Item>
