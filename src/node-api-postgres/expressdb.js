@@ -7,7 +7,7 @@ const db = require('./queries')
 
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials: true}))
 app.options('*', cors())
 
