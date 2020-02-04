@@ -8,10 +8,6 @@ import { Provider } from "react-redux";
 import _ from 'lodash'
 import faker from 'faker'
 
-const db = require('./queries')
-
-app.get('/users', db.getAllData)
-
 // Function definitions
 const getResults = () =>
   _.times(5, () => ({

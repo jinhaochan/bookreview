@@ -1,28 +1,11 @@
-const { Pool } = require('pg'); 
-const secrets = require('../middleware/ENV').default;
-
-const env = process.env.NODE_ENV || 'development';
-
-let connectionString = {
-	    user: secrets.user,
-	    database: secrets.testDb,
-	    host: secrets.host
-};// checking to know the environment and suitable connection string to use
-
-if (env === 'development') {
-    connectionString.database = secrets.database;
-} else {
-    connectionString = {
-        connectionString: process.env.DATABASE_URL,
-        ssl: true
-        };
-
-};
-
-const pool = new Pool(connectionString);
-
-pool.on('connect', () => console.log('connected to db'));
-
+const Pool = require('pg').Pool
+const pool = new Pool({
+	  user: 'user',
+	  host: 'localhost',
+	  database: 'data',
+	  password: 'password',
+	  port: 5432,
+})
 
 const getAllData = (request, response) => {
 	          pool.query('SELECT * FROM summaries ORDER BY id ASC', (error, results) => {
@@ -36,6 +19,7 @@ const getAllData = (request, response) => {
 
 const createEntry = (request, response) => {
 	  const { title, medium, description, points, image} = request.body
+
 
 	  pool.query('INSERT INTO summaries (title, medium, description, points, image) VALUES ($1, $2, $3, $4, $5)', [title, medium, description, points, image], (error, results) => {
 		      if (error) {
