@@ -48,9 +48,10 @@ class AddItem extends React.Component{
 	        .catch(err => {
 			        console.error(err);
 			      });
-
+  }
 	  render () {
-             const { title, medium, description, points } = this.state;
+		  
+             const { title, medium, description, points } = this.state
 
 	     return (
 
