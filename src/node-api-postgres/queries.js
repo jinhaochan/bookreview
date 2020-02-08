@@ -16,6 +16,15 @@ const getAllData = (request, response) => {
 			                      })
 }
 
+const getAllDataCat = (request, response) => {
+	  const medium = request.params.medium
+	          pool.query('SELECT * FROM summaries WHERE medium = $1 ORDER BY id ASC', [medium], (error, results) => {
+                        if (error) {
+                                  throw error
+                                 }
+                        response.status(200).json(results.rows)
+			                      })
+}
 
 const createEntry = (request, response) => {
 	  const { title, medium, description, points, image} = request.body
@@ -55,6 +64,7 @@ const deleteEntry = (request, response) => {
 
 module.exports = {
 	  getAllData,
+	  getAllDataCat,
 	  createEntry,
 	  updateEntry,
 	  deleteEntry,

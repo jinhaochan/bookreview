@@ -21,6 +21,7 @@ app.get('/', (request, response) => {
 })
 
 app.get('/data', db.getAllData)
+app.get('/data/:medium', db.getAllDataCat)
 app.post('/data', db.createEntry)
 app.put('/data/:id', db.updateEntry)
 app.delete('/data/:id', db.deleteEntry)

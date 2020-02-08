@@ -18,7 +18,10 @@ class Content extends Component {
             <Segment>
               <Header as='h3'>{this.props.item.title}</Header>
               <Image src={this.props.item.cover} />
-              {this.props.item.review}
+              {this.props.item.description}
+	    <hr/>
+
+              {this.props.item.points}
 
             </Segment>
 

@@ -6,29 +6,33 @@ import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux'
 import { Provider } from "react-redux";
 import _ from 'lodash'
+import axios from 'axios'
 import faker from 'faker'
 
-// Function definitions
-const getResults = () =>
-  _.times(5, () => ({
-    id: faker.random.uuid(),
-    title: faker.company.companyName(),
-    description: faker.company.catchPhrase(),
-    cover: faker.image.cats(),
-    review: faker.lorem.paragraphs(),
-  }))
+const mediums = {0:'Book', 1:'Video', 2:'Talk', 3:'Others'}
 
-const category = _.range(0, 3).reduce((memo) => {
-  const name = faker.hacker.noun()
-  const id = faker.random.number()
+function getData(medium){
+	var request = new XMLHttpRequest();
+
+	request.open('GET', 'http://localhost:3001/data/'+medium, false);
+	request.send(null)
+
+	return JSON.parse(request.responseText)
+     };
+
+const category = _.range(0, 4).reduce((allData, i) => {
+  const name = mediums[i]
+  const id = i
   // eslint-disable-next-line no-param-reassign
-  memo[name] = {
+  allData[name] = {
     id,
     name,
-    results: getResults(),
+    results: getData(name),
   }
-  return memo
+  return allData
 }, {})
+
+console.log(category)
 
 const initialState = {
   changeableCatSet: category,

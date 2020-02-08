@@ -93,7 +93,6 @@ class AddItem extends React.Component{
 	            label='Medium'
 	            options={options}
 		    value={medium}
-		    defaultValue="Book"
                     onChange={this.handleChange}
 	            placeholder='Source of Information'
 	          />
