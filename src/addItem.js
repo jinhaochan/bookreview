@@ -17,7 +17,8 @@ class AddItem extends React.Component{
 	    title: '',
 	    medium: '',
 	    description: '',
-	    points: ''
+	    points: '',
+	    modalOpen:false
             }
 
     constructor(props) {
@@ -33,6 +34,10 @@ class AddItem extends React.Component{
 		    });
 	           
 	        }
+
+  handleOpen = () => this.setState({modalOpen: true})
+  handleClose = () => this.setState({modalOpen: false})
+
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
 
@@ -48,6 +53,7 @@ class AddItem extends React.Component{
 	        .catch(err => {
 			        console.error(err);
 			      });
+	  this.handleClose()
   }
 	  render () {
 		  
@@ -55,7 +61,10 @@ class AddItem extends React.Component{
 
 	     return (
 
-            <Modal trigger={<Button>Add</Button>}>
+            <Modal
+	       trigger={<Button onClick={this.handleOpen}>Add</Button>}
+	       open={this.state.modalOpen}
+		     onClose={this.handleClose}>
 	    <Modal.Header>Add Item</Modal.Header>
 	    <Modal.Content scrolling>
 		     {this.state.uploaded ?
@@ -71,29 +80,32 @@ class AddItem extends React.Component{
 		     }
 	      <Modal.Description>
 	         <Form onSubmit={this.handleSubmit}>
-	              <Form.Input fluid label='Title'
+	              <Form.Input required fluid label='Title'
 		      name='title'
 		      value={title}
 		     onChange={this.handleChange}
 		     placeholder='Title of Material' />
 
 	          <Form.Field
+		     required
 	            control={Select}
 		    name='medium'
 	            label='Medium'
 	            options={options}
 		    value={medium}
+		    defaultValue="Book"
                     onChange={this.handleChange}
 	            placeholder='Source of Information'
 	          />
 
-	         <Form.Input fluid label='Description'
+	         <Form.Input required fluid label='Description'
 		     value={description}
 		     name='description'
 		     onChange={this.handleChange}
 		     placeholder='Brief Description About The Material' />
 
                  <Form.Field
+		     required
 		           id='form-textarea-control-opinion'
 		           control={TextArea}
 		           value={points}
