@@ -9,7 +9,7 @@ import _ from 'lodash'
 import axios from 'axios'
 import faker from 'faker'
 
-const mediums = {0:'Book', 1:'Video', 2:'Talk', 3:'Others'}
+const mediums = {0:'book', 1:'video', 2:'talk', 3:'others'}
 
 function getData(medium){
 	var request = new XMLHttpRequest();
@@ -44,11 +44,16 @@ const initialState = {
   searchValue: '',
   searchisLoading: false,
   searchResults: [],
-  selectedCat: 'All Categories'
+  selectedCat: 'All Categories',
 };
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
+    case 'ADD_ITEM':
+	window.location.reload()
+        return Object.assign({}, state, {
+            addItem: action.added,
+          })
     case 'SELECT_BOOK':
         return Object.assign({}, state, {
             selectedItem: action.selectedItem,

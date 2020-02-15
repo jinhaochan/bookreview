@@ -2,12 +2,13 @@ import React from 'react'
 import axios from 'axios'
 import ImageUploader from 'react-images-upload';
 import { Form, Button, TextArea, Select, Header, Icon, Image, Modal } from 'semantic-ui-react'
+import { connect } from "react-redux";
 
 const options = [
-	  { key: 'b', text: 'Book', value: 'Book' },
-	  { key: 'v', text: 'Video', value: 'Video' },
-	  { key: 't', text: 'Talk', value: 'Talk' },
-	  { key: 'o', text: 'Other', value: 'Other' },
+	  { key: 'b', text: 'Book', value: 'book' },
+	  { key: 'v', text: 'Video', value: 'video' },
+	  { key: 't', text: 'Talk', value: 'talk' },
+	  { key: 'o', text: 'Other', value: 'others' },
 ]
 
 class AddItem extends React.Component{
@@ -49,7 +50,10 @@ class AddItem extends React.Component{
 
               axios
 	        .post('http://localhost:3001/data', data)
-	        .then(() => console.log('created'))
+	        .then(() => {
+			console.log('created');
+			this.props.dispatch({type:'ADD_ITEM', added:true})
+		})
 	        .catch(err => {
 			        console.error(err);
 			      });
@@ -125,5 +129,9 @@ class AddItem extends React.Component{
 	  }
 }
 
-export default AddItem
+const mapStateToProps = (state) => ({
+	added : state.added
+})
+
+export default connect(mapStateToProps)(AddItem)
 

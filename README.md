@@ -66,3 +66,17 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+# Postgres - Heroku Stuff
+
+Making backup file:
+
+`pg_dump -U USERNAME DATABASE --no-owner --no-acl -f backup.sql`
+
+Restoring from sql file to heroku:
+
+`heroku pg:psql --app APPNAME < backup.sql`
+
+Deleting all tables from heroku app database:
+
+`heroku pg:reset --app APPNAME`

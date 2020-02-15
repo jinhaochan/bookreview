@@ -12,7 +12,7 @@ class SearchBar extends Component {
   handleResultSelect = (e, { result }) => {
     this.setState({ value: result.title })
 
-    this.props.dispatch({ type: 'SELECT_SEARCH', activeItem: result.title, selectedItem: result, value: result.title})
+    this.props.dispatch({ type: 'SELECT_SEARCH', activeItem: result.id, selectedItem: result, value: result.title})
 
     }
 

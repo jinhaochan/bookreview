@@ -14,7 +14,7 @@ class Navheader extends Component {
 
 
   // Function Definitions
-  handleItemClick = (e, { name, bookid, categoryid }) => {
+  handleItemClick = (e, { name, itemid, categoryid }) => {
 
     var allitems = this.props.origCat
     // Narrow down by category
@@ -25,7 +25,7 @@ class Navheader extends Component {
     var categoryBooks = categoryBooksCollection[0].results;
     // Finding the book in the catergory
     var book = categoryBooks.filter( book => {
-        return book.id === bookid;
+        return book.id === itemid;
     });
 
     this.props.dispatch({ type: 'SELECT_BOOK', activeItem: name, selectedItem: book})

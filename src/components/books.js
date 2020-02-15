@@ -14,7 +14,7 @@ const ConnectedBooks = ({ books }) => (
       {item.results.map((res) => (
         <Menu.Item
           key={res.id}
-          bookid={res.id}
+          itemid={res.id}
           categoryid={item.id}
           name={res.title}
           active={activeItem === res.title}

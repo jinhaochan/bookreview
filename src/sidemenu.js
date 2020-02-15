@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 class SideMenu extends Component {
 
   // Function Definitions
-  handleItemClick = (e, { name, bookid, categoryid }) => {
+  handleItemClick = (e, { itemid, categoryid }) => {
 
     var allitems = this.props.origCatList
     // Narrow down by category
@@ -16,10 +16,10 @@ class SideMenu extends Component {
     var categoryBooks = categoryBooksCollection[0].results;
     // Finding the book in the catergory
     var book = categoryBooks.filter( book => {
-        return book.id === bookid;
+        return book.id === itemid;
     });
 
-    this.props.dispatch({ type: 'SELECT_BOOK', activeItem: name, selectedItem: book[0]})
+    this.props.dispatch({ type: 'SELECT_BOOK', activeItem: itemid, selectedItem: book[0]})
 
     }
 
@@ -66,10 +66,10 @@ class SideMenu extends Component {
                     {item.results.map((res) => (
                       <Menu.Item
                         key={res.id}
-                        bookid={res.id}
+                        itemid={res.id}
                         categoryid={item.id}
                         name={res.title}
-                        active={this.props.activeItem === res.title}
+                        active={this.props.activeItem === res.id}
                         onClick={this.handleItemClick}
                        >
                          <div className="ui top left attached label">{item.name}</div>

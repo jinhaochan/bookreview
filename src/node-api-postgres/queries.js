@@ -17,7 +17,7 @@ const getAllData = (request, response) => {
 }
 
 const getAllDataCat = (request, response) => {
-	  const medium = request.params.medium
+	  const medium = request.params.medium.toLowerCase()
 	          pool.query('SELECT * FROM summaries WHERE medium = $1 ORDER BY id ASC', [medium], (error, results) => {
                         if (error) {
                                   throw error
